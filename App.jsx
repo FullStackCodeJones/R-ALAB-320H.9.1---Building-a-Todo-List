@@ -35,12 +35,34 @@ function todoReducer(state, action) {
 }
 
 function App() {
-  // 3. Here I want to use the useREducer hook
+  // 3. Here I want to use the useReducer hook to magae the todos
   const [todos, dispatch] = useReducer(todoReducer, initialState);
   // 4. Then I will handle the state changes
+  //6. Coming back to add useState to manage new todo inputs
+  const [newTodo, setNewTodo] = useState("");
   return (
     <div>
       <h1>Randi's Todo List</h1>
+
+      {/* Add Todo Form */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault(); // Prevents the page from refreshing
+          if (newTodo.trim()) {
+            // Only add if input is not empty
+            dispatch({ type: "ADD_TODO", payload: newTodo });
+            setNewTodo(""); // Clear input after submission
+          }
+        }}
+      >
+        <input
+          type="text"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          placeholder="Add A New Todo"
+        />
+        <button type="submit">Add Todo</button>
+      </form>
       {/* Render the list of todos */}
       <ul>
         {todos.map((todo) => (
