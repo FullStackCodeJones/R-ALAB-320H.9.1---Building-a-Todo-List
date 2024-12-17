@@ -40,6 +40,26 @@ function App() {
   // 4. Then I will handle the state changes
   //6. Coming back to add useState to manage new todo inputs
   const [newTodo, setNewTodo] = useState("");
+  // 7. Adding an editingTodo to track which todo is being edited
+  const [editingTodo, setEditingTodo] = useState(null);
+  //8. This is going to store the editing title of the todo
+  const [editingTitle, setEditedTitle] = useState("");
+  //9. This will handle the edit todo functionality
+  function handleEdit(todo) {
+    setEditingTodo(todo);
+    setEditedTitle(todo.title); //It'll prefill the inout with the current title
+  }
+
+  function handleSaveEdit(id) {
+    if (etEditedTitle.trim()) {
+      dispatch({
+        type: "EDIT_TODO",
+        payload: { id, title: editedTitle },
+      });
+      setEditingTodo(null); // clears the input state
+      setEditiedTitle(""); //Clears the input field
+    }
+  }
   return (
     <div>
       <h1>Randi's Todo List</h1>
@@ -67,28 +87,43 @@ function App() {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <input
-              type="checkbox"
-              checked={todo.completed}
-              onChange={() =>
-                dispatch({ type: "TOGGLE_TODO", payload: todo.id })
-              }
-            />
-            {todo.title}
-            <button
-              onClick={() =>
-                dispatch({ type: "DELETE_TODO", payload: todo.id })
-              }
-              disabled={todo.completed}
-            >
-              Delete
-            </button>
+            {editingTodo && editingTodo.id === todo.id ? (
+              <>
+                <input
+                  type="text"
+                  value={editedTitle}
+                  onChange={(e) => setEditedTitle(e.target.value)}
+                />
+                <button onClick={() => handleSaveEdit(todo.id)}>Save</button>
+              </>
+            ) : (
+              <>
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={() =>
+                    dispatch({ type: "TOGGLE_TODO", payload: todo.id })
+                  }
+                />
+                {todo.title}
+                <button
+                  onClick={() =>
+                    dispatch({ type: "DELETE_TODO", payload: todo.id })
+                  }
+                  disabled={todo.completed}
+                >
+                  Delete
+                </button>
+                <button onClick={() => handleEdit(todo)}>Edit</button>
+              </>
+            )}
           </li>
         ))}
       </ul>
     </div>
   );
 }
+
 export default App;
 
 //inistialSTate is the starting list of the todo items with id, title, and completed fields
