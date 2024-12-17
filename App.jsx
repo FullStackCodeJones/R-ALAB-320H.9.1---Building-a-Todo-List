@@ -34,4 +34,47 @@ function todoReducer(state, action) {
   }
 }
 
+function App() {
+  // 3. Here I want to use the useREducer hook
+  const [todos, dispatch] = useReducer(todoReducer, initialState);
+  // 4. Then I will handle the state changes
+  return (
+    <div>
+      <h1>Randi's Todo List</h1>
+      {/* Render the list of todos */}
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() =>
+                dispatch({ type: "TOGGLE_TODO", payload: todo.id })
+              }
+            />
+            {todo.title}
+            <button
+              onClick={() =>
+                dispatch({ type: "DELETE_TODO", payload: todo.id })
+              }
+              disabled={todo.completed}
+            >
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 export default App;
+
+//inistialSTate is the starting list of the todo items with id, title, and completed fields
+//todoReducer is the function that is taking the current state and an action and returning a new state based on the action type.
+//ADD_TODO: adds a new item
+//TOGGLE_TODO: MArks a todo as completed
+//DELETE_TODO: Removes a completed todo
+//EDIT_TODO: Edits the title of a todo
+//===============================================
+//useREducer(todoREducer, initalState) is initialzing the state with the initialState and is providing a dispatch function to send actions
+//The delete button is disabled if the todo list isn't complete
