@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 
 // 1. Defining the initial list of todo items
 const initialState = [
