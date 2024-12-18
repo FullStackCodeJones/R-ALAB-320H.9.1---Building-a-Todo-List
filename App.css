@@ -1,85 +1,121 @@
-/* App.css */
-
-/* General Styling */
+/* 1. General Reset */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f7fc;
+  margin: 0;
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(135deg, #1e1e2f, #121212); /* Dark gradient */
+  color: #ffffff;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
 }
 
-h1 {
-  color: #333;
-  font-size: 2rem;
-}
-
-/* Container for the todo list */
+/* 2. Main Container */
 div {
-  background-color: #fff;
-  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.1); /* Subtle transparency */
+  backdrop-filter: blur(10px); /* Glassmorphism effect */
+  border-radius: 10px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  text-align: center;
 }
 
-/* Todo List Styling */
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin-top: 20px;
+/* 3. Header Styling */
+h1 {
+  font-size: 2rem;
+  color: #00eaff; /* Vibrant teal */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  transition: background-color 0.3s ease;
-}
-
-li:hover {
-  background-color: #f1f1f1;
-}
-
-/* Add Todo Form */
+/* 4. Input and Button Styling */
 input[type="text"] {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-right: 10px;
-  width: 100%;
+  width: 80%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  outline: none;
+  font-size: 1rem;
+  background-color: #222;
+  color: #fff;
 }
 
 button {
-  padding: 8px 12px;
-  background-color: #4caf50;
-  color: white;
+  margin: 5px;
+  padding: 10px 15px;
+  font-size: 1rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  color: #ffffff;
+  background: linear-gradient(135deg, #00eaff, #0066ff);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s, background 0.3s;
 }
 
 button:hover {
-  background-color: #45a049;
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #0066ff, #00eaff);
+}
+
+/* 5. Todo List Styling */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+li {
+  background: #2a2a3c;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+li:hover {
+  background: #3c3c4f;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-right: 10px;
+}
+
+li.completed {
+  text-decoration: line-through;
+  color: #888;
 }
 
 button:disabled {
-  background-color: #ccc;
+  background: #555;
   cursor: not-allowed;
 }
 
-/* Edit Todo Form */
-button.edit-btn {
-  background-color: #ffa500;
+/* 6. Error Message */
+.error {
+  color: #ff6b6b;
+  font-size: 0.9rem;
+  margin-top: 5px;
 }
 
-button.edit-btn:hover {
-  background-color: #ff8c00;
+/* 7. Responsive Design */
+@media (max-width: 600px) {
+  div {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  input[type="text"],
+  button {
+    font-size: 0.9rem;
+  }
 }

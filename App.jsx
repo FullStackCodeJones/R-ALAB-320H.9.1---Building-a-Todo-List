@@ -43,10 +43,29 @@ function App() {
   const [newTodo, setNewTodo] = useState("");
   // 7. Adding an editingTodo to track which todo is being edited
   const [editingTodo, setEditingTodo] = useState(null);
-  //8. This is going to store the editing title of the todo
+  // 8. This is going to store the editing title of the todo
   const [editedTitle, setEditedTitle] = useState("");
-  //10. This will handle the error handling and the editing
+  // 10. This will handle the error handling and the editing
   const [error, setError] = useState("");
+  // 11. This will handle the filtering
+  const [filter, setFilter] = useState("all");
+  // 12. This will handle the sorting of the todos
+  const [sort, setSortOrder] = useState("date");
+
+  // Function to filter todos based on the filter state
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "completed") return todo.completed;
+    if (filter === "incomplete") return !todo.completed;
+    return true; // "all" case
+  });
+
+  // Function to sort todos based on the sort state
+  const sortedTodos = [...filteredTodos].sort((a, b) => {
+    if (sort === "date") return b.id - a.id; // Newest first
+    if (sort === "alphabetical") return a.title.localeCompare(b.title);
+    if (sort === "status") return a.completed - b.completed; // Incomplete first
+    return 0;
+  });
 
   function handleEdit(todo) {
     setError(""); // Clear any previous errors
@@ -98,9 +117,30 @@ function App() {
         <button type="submit">Add Todo</button>
       </form>
 
+      {/* Filter and Sort Controls */}
+      <div>
+        <label>
+          Filter:
+          <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+            <option value="all">All</option>
+            <option value="completed">Completed</option>
+            <option value="incomplete">Incomplete</option>
+          </select>
+        </label>
+
+        <label>
+          Sort:
+          <select value={sort} onChange={(e) => setSortOrder(e.target.value)}>
+            <option value="date">Date Added</option>
+            <option value="alphabetical">Alphabetical</option>
+            <option value="status">Status</option>
+          </select>
+        </label>
+      </div>
+
       {/* Render the list of todos */}
       <ul>
-        {todos.map((todo) => (
+        {sortedTodos.map((todo) => (
           <li key={todo.id}>
             {editingTodo && editingTodo.id === todo.id ? (
               <>
