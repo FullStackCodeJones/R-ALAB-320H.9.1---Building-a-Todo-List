@@ -38,4 +38,7 @@ Copy code
 npm run dev
 This will launch the app on your local development server (usually at http://localhost:5173).
 
+Final Thoughts:
+This app was created with the goal of managing todos while keeping it as fun and interactive as possible! The useReducer and useState hooks were used to make state management clean and efficient—no more tangled hooks. You’ll see some simple, intuitive UI changes depending on the state of the todo, and it’s all designed to help keep me on track (and maybe you, too! 😉).
+
 
