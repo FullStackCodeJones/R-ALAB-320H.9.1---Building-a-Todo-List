@@ -1,4 +1,5 @@
 import React, { useReducer, useState } from "react";
+import "./App.css";
 
 // 1. Defining the initial list of todo items
 const initialState = [
@@ -35,7 +36,7 @@ function todoReducer(state, action) {
 }
 
 function App() {
-  // 3. Here I want to use the useReducer hook to magae the todos
+  // 3. Here I want to use the useReducer hook to manage the todos
   const [todos, dispatch] = useReducer(todoReducer, initialState);
   // 4. Then I will handle the state changes
   //6. Coming back to add useState to manage new todo inputs
@@ -43,38 +44,51 @@ function App() {
   // 7. Adding an editingTodo to track which todo is being edited
   const [editingTodo, setEditingTodo] = useState(null);
   //8. This is going to store the editing title of the todo
-  const [editingTitle, setEditedTitle] = useState("");
-  //9. This will handle the edit todo functionality
+  const [editedTitle, setEditedTitle] = useState("");
+  //10. This will handle the error handling and the editing
+  const [error, setError] = useState("");
+
   function handleEdit(todo) {
+    setError(""); // Clear any previous errors
     setEditingTodo(todo);
-    setEditedTitle(todo.title); //It'll prefill the inout with the current title
+    setEditedTitle(todo.title); // It'll prefill the input with the current title
   }
 
   function handleSaveEdit(id) {
-    if (etEditedTitle.trim()) {
+    if (editedTitle.trim()) {
       dispatch({
         type: "EDIT_TODO",
         payload: { id, title: editedTitle },
       });
-      setEditingTodo(null); // clears the input state
-      setEditiedTitle(""); //Clears the input field
+      setEditingTodo(null); // Clears the input state
+      setEditedTitle(""); // Clears the input field
+      setError(""); // Clear any previous errors
+    } else {
+      setError("Edited title cannot be empty!"); // Show error if input is invalid
     }
   }
+
+  function handleAddTodo(e) {
+    e.preventDefault(); // Prevents the page from refreshing
+    if (newTodo.trim()) {
+      // Only add if input is not empty
+      dispatch({ type: "ADD_TODO", payload: newTodo });
+      setNewTodo(""); // Clear input after submission
+      setError(""); // Clear any previous errors
+    } else {
+      setError("Todo title cannot be empty!"); // Show error if input is invalid
+    }
+  }
+
   return (
     <div>
       <h1>Randi's Todo List</h1>
 
+      {/* Display Error Message */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
       {/* Add Todo Form */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault(); // Prevents the page from refreshing
-          if (newTodo.trim()) {
-            // Only add if input is not empty
-            dispatch({ type: "ADD_TODO", payload: newTodo });
-            setNewTodo(""); // Clear input after submission
-          }
-        }}
-      >
+      <form onSubmit={handleAddTodo}>
         <input
           type="text"
           value={newTodo}
@@ -83,6 +97,7 @@ function App() {
         />
         <button type="submit">Add Todo</button>
       </form>
+
       {/* Render the list of todos */}
       <ul>
         {todos.map((todo) => (
@@ -126,12 +141,12 @@ function App() {
 
 export default App;
 
-//inistialSTate is the starting list of the todo items with id, title, and completed fields
+//initialState is the starting list of the todo items with id, title, and completed fields
 //todoReducer is the function that is taking the current state and an action and returning a new state based on the action type.
 //ADD_TODO: adds a new item
-//TOGGLE_TODO: MArks a todo as completed
+//TOGGLE_TODO: Marks a todo as completed
 //DELETE_TODO: Removes a completed todo
 //EDIT_TODO: Edits the title of a todo
 //===============================================
-//useREducer(todoREducer, initalState) is initialzing the state with the initialState and is providing a dispatch function to send actions
+//useReducer(todoReducer, initialState) is initializing the state with the initialState and is providing a dispatch function to send actions
 //The delete button is disabled if the todo list isn't complete
